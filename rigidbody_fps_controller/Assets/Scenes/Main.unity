@@ -232,16 +232,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0171303bff24c3f4199c0742dcd965ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 659293427}
-  capsuleCol: {fileID: 659293428}
-  speed: 12
-  acceleration: 20
-  deceleration: 20
-  airAccel: 5
+  speed: 10
   jumpSpeed: 7
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
-  maxSlope: 45
 --- !u!4 &659293426 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4148958796786585090, guid: 8fac4d787729b864cb46f0f1f75ede90,
@@ -264,12 +258,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 1
---- !u!136 &659293428 stripped
-CapsuleCollider:
-  m_CorrespondingSourceObject: {fileID: 4148958796786585119, guid: 8fac4d787729b864cb46f0f1f75ede90,
-    type: 3}
-  m_PrefabInstance: {fileID: 4148958796170808048}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

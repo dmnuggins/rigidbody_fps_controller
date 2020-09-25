@@ -2,24 +2,20 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Rigidbody rb;
-    public CapsuleCollider capsuleCol;
-
     public float speed = 12.0f; // speed of player
-    public float acceleration = 20.0f; // units/sec accel
-    public float deceleration = 20.0f; // units/sec decel
-    public float airAccel = 5.0f; // mid-air accel
     public float jumpSpeed = 7.0f; // jump speed when jump button is pressed
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2.0f;
-    public float maxSlope = 45.0f; // max slope player can traverse
 
-    private Vector3 jumpVector;
+    private Rigidbody rb;
+    private CapsuleCollider capsuleCol;
+    private float x_axis, z_axis;
 
     private bool grounded = false; // variable checked if player is grounded
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        capsuleCol = GetComponent<CapsuleCollider>();
     }
     private void Start()
     {
@@ -28,17 +24,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * x + transform.forward * z;
-        rb.AddForce(move * speed * Time.deltaTime, ForceMode.VelocityChange);
+        #region Controller Input
+        x_axis = Input.GetAxis("Horizontal");
+        z_axis = Input.GetAxis("Vertical");
 
-        if(Input.GetButton("Jump") && grounded)
+        rb.MovePosition(transform.position + Time.deltaTime * speed * transform.TransformDirection(x_axis, 0f, z_axis));
+        #endregion
+
+        #region Jump Input
+        // Jump
+        if (Input.GetButtonDown("Jump") && grounded)
         {
             rb.velocity = Vector3.up * jumpSpeed;
         }
-
+        // Jump acceleration modifier
         if(rb.velocity.y < 0)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
@@ -51,7 +51,13 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier -1) * Time.deltaTime;
         }
+        #endregion
 
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     private void OnCollisionStay(Collision collision)
